@@ -647,5 +647,24 @@ window.addEventListener("beforeunload", () => {
 // 11. KHỞI TẠO
 // ============================================================
 
+/** Load the most recent recording from IndexedDB into the main player */
+function loadLatestRecordingIntoPlayer() {
+  getAllRecordingsFromDb()
+    .then((recordings) => {
+      if (recordings && recordings.length > 0) {
+        const latest = recordings[0];
+        loadRecordingToMainPlayer(latest.blob, latest.name);
+      }
+    })
+    .catch((err) => {
+      console.error("Không thể tải bản ghi gần nhất:", err);
+    });
+}
+
+// ============================================================
+// 11. KHỞI TẠO
+// ============================================================
+
 updateDateCounters();
 renderRecordingHistory();
+loadLatestRecordingIntoPlayer();

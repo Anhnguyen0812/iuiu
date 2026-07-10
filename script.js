@@ -105,7 +105,7 @@ $$(".image-box img").forEach((img) => {
 });
 
 // ============================================================
-// 6. VOICE PLAYER (SIMULATED)
+// 6. VOICE PLAYER (SIMULATED + REAL AUDIO)
 // ============================================================
 
 const playBtn = $("#playBtn");
@@ -117,15 +117,31 @@ let isPlaying = false;
 let elapsedSeconds = 0;
 let totalSeconds = 88; // default: 01:28
 let playerTimer = null;
+let playerAudio = null;     // real Audio element when recording is loaded
+let playerAudioUrl = null;  // object URL for the real audio
 
 function stopPlayer(reset = false) {
   isPlaying = false;
   playBtn.classList.remove("playing");
   clearInterval(playerTimer);
-  playerState.textContent = "Chạm để nghe";
+
+  // Stop real audio if playing
+  if (playerAudio && !playerAudio.paused) {
+    playerAudio.pause();
+    playerAudio.currentTime = 0;
+  }
+
+  if (playerAudio) {
+    playerState.textContent = "Chạm để nghe bản ghi";
+  } else {
+    playerState.textContent = "Chạm để nghe";
+  }
+
   if (reset) {
     elapsedSeconds = 0;
-    playerTime.textContent = fmtTime(totalSeconds);
+    playerTime.textContent = playerAudio
+      ? fmtTime(Math.floor(totalSeconds))
+      : fmtTime(totalSeconds);
   }
 }
 
@@ -138,6 +154,30 @@ function startPlayer() {
 
   isPlaying = true;
   playBtn.classList.add("playing");
+
+  // --- REAL AUDIO MODE ---
+  if (playerAudio) {
+    playerState.textContent = "Đang phát bản ghi";
+    playerAudio.play().catch(() => {});
+
+    // Use interval to update time display (like simulated mode)
+    if (playerTimer) clearInterval(playerTimer);
+    playerTimer = setInterval(() => {
+      if (playerAudio && !playerAudio.paused) {
+        const remaining = Math.max(0, Math.ceil(playerAudio.duration - playerAudio.currentTime));
+        playerTime.textContent = fmtTime(remaining);
+      }
+    }, 200);
+
+    playerAudio.addEventListener("ended", function onEnd() {
+      clearInterval(playerTimer);
+      stopPlayer(true);
+      showToast("Bản ghi đã phát xong ♡");
+    }, { once: true });
+    return;
+  }
+
+  // --- SIMULATED MODE ---
   playerState.textContent = "Đang phát lời nhắn";
 
   playerTimer = setInterval(() => {
@@ -154,9 +194,50 @@ function startPlayer() {
 
 playBtn.addEventListener("click", startPlayer);
 
-// Memory buttons – switch to a different voice message
+/** Load real recorded audio into the main player */
+function loadRecordingToMainPlayer(blob, name) {
+  // Clean up previous real audio
+  if (playerAudioUrl) {
+    URL.revokeObjectURL(playerAudioUrl);
+  }
+  if (playerAudio) {
+    playerAudio.pause();
+    playerAudio.src = "";
+  }
+
+  stopPlayer(true);
+
+  playerAudioUrl = URL.createObjectURL(blob);
+  playerAudio = new Audio(playerAudioUrl);
+
+  // Wait for metadata to get duration
+  playerAudio.addEventListener("loadedmetadata", () => {
+    totalSeconds = Math.ceil(playerAudio.duration);
+    playerTime.textContent = fmtTime(totalSeconds);
+  }, { once: true });
+
+  voiceTitle.textContent = name || "Bản ghi của bạn";
+  playerState.textContent = "Chạm để nghe bản ghi";
+}
+
+/** Switch main player back to simulated mode */
+function switchToSimulatedMode() {
+  if (playerAudioUrl) {
+    URL.revokeObjectURL(playerAudioUrl);
+    playerAudioUrl = null;
+  }
+  if (playerAudio) {
+    playerAudio.pause();
+    playerAudio.src = "";
+    playerAudio = null;
+  }
+  stopPlayer(true);
+}
+
+// Memory buttons – switch to a different simulated voice message
 $$(".memory").forEach((btn) => {
   btn.addEventListener("click", () => {
+    switchToSimulatedMode();
     const [mins, secs] = btn.dataset.time.split(":").map(Number);
     stopPlayer(true);
     totalSeconds = mins * 60 + secs;
@@ -395,12 +476,14 @@ async function startRecording() {
       recordStatus.textContent = 'Đã ghi xong · bấm "Nghe lại" để kiểm tra.';
       showToast("Đã lưu bản ghi tạm thời ♡");
 
-      // Auto-save to IndexedDB
+      // Load recording into the main player at the top
       const now = new Date();
-      const defaultName = `Bản ghi ${formatDate(now)} ${fmtTime(
-        Math.floor((Date.now() - recordStartTime) / 1000)
-      )}`;
-      saveRecordingToDb(blob, defaultName)
+      const duration = Math.floor((Date.now() - recordStartTime) / 1000);
+      const defaultName = `Bản ghi ${formatDate(now)}`;
+      loadRecordingToMainPlayer(blob, defaultName);
+
+      // Auto-save to IndexedDB
+      saveRecordingToDb(blob, `${defaultName} ${fmtTime(duration)}`)
         .then(() => {
           showToast("Đã lưu bản ghi vào thiết bị");
           renderRecordingHistory();

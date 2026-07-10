@@ -2,107 +2,270 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#fff7f2">
-  <meta name="robots" content="noindex,nofollow">
+  <meta name="robots" content="noindex, nofollow">
   <title>Một món quà dành cho bạn</title>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="blob blob-a"></div><div class="blob blob-b"></div>
+
+  <!-- Background decoration -->
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+
+  <!-- ============================================================
+       MAIN APP
+       ============================================================ -->
   <main class="app">
+
+    <!-- Top bar -->
     <header class="topbar">
-      <a class="brand" href="#"><b>♡</b><span>chạm & nhớ</span></a>
+      <a class="brand" href="#">
+        <b>♡</b>
+        <span>chạm & nhớ</span>
+      </a>
       <button id="privacyBtn" class="round-btn" aria-label="Bảo mật">
-        <svg viewBox="0 0 24 24"><path d="M7 10V8a5 5 0 0 1 10 0v2"/><rect x="5" y="10" width="14" height="10" rx="3"/><path d="M12 14v2"/></svg>
+        <svg viewBox="0 0 24 24" width="20" height="20">
+          <path d="M7 10V8a5 5 0 0 1 10 0v2"/>
+          <rect x="5" y="10" width="14" height="10" rx="3"/>
+          <path d="M12 14v2"/>
+        </svg>
       </button>
     </header>
 
-    <div class="secure"><i></i> Không gian riêng tư · Link không chứa tên cặp đôi</div>
+    <!-- Secure badge -->
+    <div class="secure">
+      <i></i> Không gian riêng tư &middot; Link không chứa tên cặp đôi
+    </div>
 
+    <!-- Polaroid hero -->
     <section class="polaroid">
       <span class="tape"></span>
       <div class="hero-photo image-box">
         <img src="anh1.jpg" alt="Ảnh kỷ niệm chính">
-        <div class="image-fallback">♡<small>Thêm file <b>anh1.png</b></small></div>
-        <span class="sticker one">love you</span><span class="sticker two">♡</span>
+        <div class="image-fallback">
+          ♡<small>Thêm file <b>anh1.png</b></small>
+        </div>
+        <span class="sticker one">love you</span>
+        <span class="sticker two">♡</span>
       </div>
-      <p>Một khoảnh khắc nhỏ<br><strong>nhưng là cả thế giới của mình.</strong></p>
+      <p>
+        Một khoảnh khắc nhỏ<br>
+        <strong>nhưng là cả thế giới của mình.</strong>
+      </p>
     </section>
 
+    <!-- Intro -->
     <section class="intro">
       <small class="kicker">Món quà riêng dành cho bạn</small>
-      <h1>Minh <em>×</em> An</h1>
-      <div class="days"><span>♥</span><b id="daysTogether">628</b> ngày bên nhau</div>
-      <p>Có một lời nhắn được cất ở đây,<br>chỉ chờ bạn chạm vào để nghe.</p>
+      <h1>Minh Anh <em>&times;</em> Phi Anh</h1>
+      <div class="days">
+        <span>&hearts;</span>
+        <b id="daysTogether">628</b> ngày bên nhau
+      </div>
+      <p>
+        Có một lời nhắn được cất ở đây,<br>
+        chỉ chờ bạn chạm vào để nghe.
+      </p>
     </section>
 
+    <!-- Voice player card -->
     <section class="card voice-card">
-      <div class="card-head"><div><small class="kicker">Lời nhắn hôm nay</small><h2 id="voiceTitle">Nghe khi bạn nhớ mình</h2></div><span class="badge">mới</span></div>
+      <div class="card-head">
+        <div>
+          <small class="kicker">Lời nhắn hôm nay</small>
+          <h2 id="voiceTitle">Nghe khi bạn nhớ mình</h2>
+        </div>
+        <span class="badge">mới</span>
+      </div>
+
       <button id="playBtn" class="player">
-        <span class="play-circle"><span class="play-icon">▶</span><span class="pause-icon">Ⅱ</span></span>
+        <span class="play-circle">
+          <span class="play-icon">&#9654;</span>
+          <span class="pause-icon">&prod;</span>
+        </span>
         <span class="player-body">
-          <span class="player-row"><b id="playerState">Chạm để nghe</b><i id="playerTime">01:28</i></span>
+          <span class="player-row">
+            <b id="playerState">Chạm để nghe</b>
+            <i id="playerTime">01:28</i>
+          </span>
           <span id="wave" class="wave">
-            <i style="--h:35%"></i><i style="--h:63%"></i><i style="--h:88%"></i><i style="--h:52%"></i><i style="--h:74%"></i><i style="--h:45%"></i><i style="--h:95%"></i><i style="--h:58%"></i><i style="--h:81%"></i><i style="--h:40%"></i><i style="--h:70%"></i><i style="--h:90%"></i><i style="--h:57%"></i><i style="--h:78%"></i><i style="--h:48%"></i><i style="--h:84%"></i><i style="--h:62%"></i><i style="--h:93%"></i><i style="--h:50%"></i><i style="--h:72%"></i>
+            <i style="--h:35%"></i><i style="--h:63%"></i><i style="--h:88%"></i>
+            <i style="--h:52%"></i><i style="--h:74%"></i><i style="--h:45%"></i>
+            <i style="--h:95%"></i><i style="--h:58%"></i><i style="--h:81%"></i>
+            <i style="--h:40%"></i><i style="--h:70%"></i><i style="--h:90%"></i>
+            <i style="--h:57%"></i><i style="--h:78%"></i><i style="--h:48%"></i>
+            <i style="--h:84%"></i><i style="--h:62%"></i><i style="--h:93%"></i>
+            <i style="--h:50%"></i><i style="--h:72%"></i>
           </span>
         </span>
       </button>
-      <div class="meta"><span>▣ Gửi ngày 11.07.2026</span><span>♧ Món quà từ An</span></div>
+
+      <div class="meta">
+        <span>&#9635; Gửi ngày 11.07.2026</span>
+        <span>&#9825; Món quà từ An</span>
+      </div>
     </section>
 
+    <!-- Gallery section -->
     <section class="section">
-      <div class="title-row"><div><small class="kicker">Album nhỏ</small><h2>Ảnh của chúng mình</h2></div><button id="galleryBtn" class="link-btn">Xem tất cả →</button></div>
+      <div class="title-row">
+        <div>
+          <small class="kicker">Album nhỏ</small>
+          <h2>Ảnh của chúng mình</h2>
+        </div>
+        <button id="galleryBtn" class="link-btn">Xem tất cả &rarr;</button>
+      </div>
       <div class="photos">
-        <button class="photo large image-box" data-src="anh2.png"><img src="anh2.jpg" alt="Ảnh 2"><span class="image-fallback">anh2.png</span></button>
-        <button class="photo image-box" data-src="anh3.png"><img src="anh3.jpg" alt="Ảnh 3"><span class="image-fallback">anh3.png</span></button>
-        <button class="photo image-box" data-src="anh4.png"><img src="anh4.jpg" alt="Ảnh 4"><span class="image-fallback">anh4.png</span></button>
-        <div class="photo quote"><b>“</b><p>Cảm ơn vì đã xuất hiện trong thanh xuân của mình.</p></div>
+        <button class="photo large image-box" data-src="anh2.png">
+          <img src="anh2.jpg" alt="Ảnh 2">
+          <span class="image-fallback">anh2.png</span>
+        </button>
+        <button class="photo image-box" data-src="anh3.png">
+          <img src="anh3.jpg" alt="Ảnh 3">
+          <span class="image-fallback">anh3.png</span>
+        </button>
+        <button class="photo image-box" data-src="anh4.png">
+          <img src="anh4.jpg" alt="Ảnh 4">
+          <span class="image-fallback">anh4.png</span>
+        </button>
+        <div class="photo quote">
+          <b>&ldquo;</b>
+          <p>Cảm ơn vì đã xuất hiện trong thanh xuân của mình.</p>
+        </div>
       </div>
     </section>
 
+    <!-- Memories list -->
     <section class="card memories">
-      <div class="title-row compact"><div><small class="kicker">Hộp ký ức</small><h2>Những điều đã lưu lại</h2></div><small>3 lời nhắn</small></div>
+      <div class="title-row compact">
+        <div>
+          <small class="kicker">Hộp ký ức</small>
+          <h2>Những điều đã lưu lại</h2>
+        </div>
+        <small>3 lời nhắn</small>
+      </div>
       <div class="memory-list">
-        <button class="memory" data-title="Nghe khi nhớ mình" data-time="01:28"><i>▶</i><span><b>Nghe khi nhớ mình</b><small>20.03.2026 · 01:28</small></span><em>•••</em></button>
-        <button class="memory" data-title="Chúc bạn thi tốt nhé" data-time="00:56"><i>▶</i><span><b>Chúc bạn thi tốt nhé</b><small>28.05.2026 · 00:56</small></span><em>•••</em></button>
-        <button class="memory" data-title="Kỷ niệm sinh nhật của bạn" data-time="01:42"><i>▶</i><span><b>Kỷ niệm sinh nhật của bạn</b><small>11.07.2026 · 01:42</small></span><em>•••</em></button>
+        <button class="memory" data-title="Nghe khi nhớ mình" data-time="01:28">
+          <i>&#9654;</i>
+          <span>
+            <b>Nghe khi nhớ mình</b>
+            <small>20.03.2026 &middot; 01:28</small>
+          </span>
+          <em>&bull;&bull;&bull;</em>
+        </button>
+        <button class="memory" data-title="Chúc bạn thi tốt nhé" data-time="00:56">
+          <i>&#9654;</i>
+          <span>
+            <b>Chúc bạn thi tốt nhé</b>
+            <small>28.05.2026 &middot; 00:56</small>
+          </span>
+          <em>&bull;&bull;&bull;</em>
+        </button>
+        <button class="memory" data-title="Kỷ niệm sinh nhật của bạn" data-time="01:42">
+          <i>&#9654;</i>
+          <span>
+            <b>Kỷ niệm sinh nhật của bạn</b>
+            <small>11.07.2026 &middot; 01:42</small>
+          </span>
+          <em>&bull;&bull;&bull;</em>
+        </button>
       </div>
     </section>
 
+    <!-- Countdown -->
     <section class="card countdown">
-      <div><small class="kicker">Ngày tiếp theo</small><h2>Kỷ niệm 2 năm</h2><p>Còn <b id="countdown">102 ngày</b> nữa thôi.</p></div>
-      <div class="count-art">♡<small>⌒⌒</small></div>
-    </section>
-
-    <section class="card recorder">
-      <div class="mic">🎙</div>
-      <div><small class="kicker">Thử tính năng</small><h2>Ghi một lời nhắn mới</h2><p>Bản ghi chỉ được lưu tạm trên thiết bị trong trang demo.</p>
-        <div class="record-actions"><button id="recordBtn" class="pill"><i></i><span>Bắt đầu ghi</span></button><button id="listenBtn" class="pill ghost" disabled>Nghe lại</button></div>
-        <small id="recordStatus" class="record-status"></small>
+      <div>
+        <small class="kicker">Ngày tiếp theo</small>
+        <h2>Kỷ niệm 2 năm</h2>
+        <p>Còn <b id="countdown">102 ngày</b> nữa thôi.</p>
+      </div>
+      <div class="count-art">
+        &#9825;<small>&#8978;&#8978;</small>
       </div>
     </section>
 
-    <footer><b>♡</b><p>Cảm ơn vì chúng ta đã tìm thấy nhau.</p><small>Mở bằng liên kết NFC riêng tư</small></footer>
+    <!-- Recorder card -->
+    <section class="card recorder">
+      <div class="mic">&#127899;</div>
+      <div>
+        <small class="kicker">Thử tính năng</small>
+        <h2>Ghi một lời nhắn mới</h2>
+        <p>Bản ghi được lưu vào thiết bị qua IndexedDB, tồn tại qua các lần tải lại trang.</p>
+        <div class="record-actions">
+          <button id="recordBtn" class="pill">
+            <i></i><span>Bắt đầu ghi</span>
+          </button>
+          <button id="listenBtn" class="pill ghost" disabled>Nghe lại</button>
+        </div>
+        <small id="recordStatus" class="record-status"></small>
+        <div id="recordingHistory" class="recording-history"></div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <b>&#9825;</b>
+      <p>Cảm ơn vì chúng ta đã tìm thấy nhau.</p>
+      <small>Mở bằng liên kết NFC riêng tư</small>
+    </footer>
+
   </main>
 
+  <!-- Toast -->
   <div id="toast" class="toast"></div>
 
+  <!-- ============================================================
+       MODALS
+       ============================================================ -->
+
+  <!-- Privacy modal -->
   <div id="privacyModal" class="modal" aria-hidden="true">
     <div class="backdrop" data-close="privacy"></div>
-    <div class="sheet"><button class="close" data-close="privacy">×</button><div class="lock">🔒</div><small class="kicker">Trạng thái bảo mật</small><h2>Không gian này đang riêng tư</h2><p>Link NFC sử dụng mã ngẫu nhiên, không chứa tên cặp đôi và không được lập chỉ mục tìm kiếm.</p><ul><li>✓ Không lộ tên hoặc mã đơn hàng</li><li>✓ Link NFC chỉ có quyền xem</li><li>✓ Có thể thu hồi khi mất móc khóa</li></ul><button class="primary" data-close="privacy">Đã hiểu</button></div>
+    <div class="sheet">
+      <button class="close" data-close="privacy">&times;</button>
+      <div class="lock">&#128274;</div>
+      <small class="kicker">Trạng thái bảo mật</small>
+      <h2>Không gian này đang riêng tư</h2>
+      <p>Link NFC sử dụng mã ngẫu nhiên, không chứa tên cặp đôi và không được lập chỉ mục tìm kiếm.</p>
+      <ul>
+        <li>&check; Không lộ tên hoặc mã đơn hàng</li>
+        <li>&check; Link NFC chỉ có quyền xem</li>
+        <li>&check; Có thể thu hồi khi mất móc khóa</li>
+      </ul>
+      <button class="primary" data-close="privacy">Đã hiểu</button>
+    </div>
   </div>
 
+  <!-- Gallery modal -->
   <div id="galleryModal" class="modal" aria-hidden="true">
     <div class="backdrop" data-close="gallery"></div>
-    <div class="sheet gallery-sheet"><button class="close" data-close="gallery">×</button><small class="kicker">Album của chúng mình</small><h2>Những khoảnh khắc đáng yêu</h2><div id="galleryGrid" class="gallery-grid"></div></div>
+    <div class="sheet gallery-sheet">
+      <button class="close" data-close="gallery">&times;</button>
+      <small class="kicker">Album của chúng mình</small>
+      <h2>Những khoảnh khắc đáng yêu</h2>
+      <div id="galleryGrid" class="gallery-grid"></div>
+    </div>
   </div>
 
-  <div id="lightbox" class="lightbox" aria-hidden="true"><button id="lightboxClose">×</button><img id="lightboxImg" alt="Ảnh phóng to"></div>
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <button id="lightboxClose">&times;</button>
+    <img id="lightboxImg" alt="Ảnh phóng to">
+  </div>
+
+  <!-- Hidden audio element for recorded playback -->
   <audio id="recordedAudio"></audio>
+
+  <!-- Scripts -->
   <script src="script.js"></script>
 </body>
 </html>

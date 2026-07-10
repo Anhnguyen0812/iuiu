@@ -1,4 +1,4 @@
-const CONFIG={relationshipStart:"2024-10-22",nextAnniversary:"2026-10-21",gallery:["anh1.png","anh2.png","anh3.png","anh4.png","anh5.png","anh6.png"]};
+const CONFIG={relationshipStart:"2024-10-22",nextAnniversary:"2026-10-21",gallery:["anh1.jpg","anh2.jpg","anh3.jpg","anh4.jpg","anh5.jpg"]};
 const $=(s,p=document)=>p.querySelector(s),$$=(s,p=document)=>[...p.querySelectorAll(s)];
 const toast=$("#toast");let toastTimer;
 function showToast(t){toast.textContent=t;toast.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove("show"),2300)}

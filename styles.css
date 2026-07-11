@@ -321,7 +321,7 @@ a {
 
 .intro h1 {
   margin: 8px 0 10px;
-  font: 400 clamp(43px, 12vw, 58px) / 1 "DM Serif Display";
+  font: 400 clamp(34px, 9vw, 52px) / 1 "DM Serif Display";
   letter-spacing: -0.04em;
 }
 

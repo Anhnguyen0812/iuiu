@@ -106,7 +106,7 @@
 
       <div class="meta">
         <span>&#9635; Gửi ngày 11.07.2026</span>
-        <span>&#9825; Món quà từ An</span>
+        <span>&#9825; Món quà từ Phanh</span>
       </div>
     </section>
 
@@ -120,17 +120,17 @@
         <button id="galleryBtn" class="link-btn">Xem tất cả &rarr;</button>
       </div>
       <div class="photos">
-        <button class="photo large image-box" data-src="anh2.png">
+        <button class="photo large image-box" data-src="anh2.jpg">
           <img src="anh2.jpg" alt="Ảnh 2">
-          <span class="image-fallback">anh2.png</span>
+          <span class="image-fallback">anh2.jpg</span>
         </button>
-        <button class="photo image-box" data-src="anh3.png">
+        <button class="photo image-box" data-src="anh3.jpg">
           <img src="anh3.jpg" alt="Ảnh 3">
-          <span class="image-fallback">anh3.png</span>
+          <span class="image-fallback">anh3.jpg</span>
         </button>
-        <button class="photo image-box" data-src="anh4.png">
+        <button class="photo image-box" data-src="anh4.jpg">
           <img src="anh4.jpg" alt="Ảnh 4">
-          <span class="image-fallback">anh4.png</span>
+          <span class="image-fallback">anh4.jpg</span>
         </button>
         <div class="photo quote">
           <b>&ldquo;</b>
@@ -254,6 +254,11 @@
   <!-- Lightbox -->
   <div id="lightbox" class="lightbox" aria-hidden="true">
     <button id="lightboxClose">&times;</button>
+    <button id="lightboxPrev" class="lb-nav" aria-label="Ảnh trước">&lsaquo;</button>
+    <button id="lightboxNext" class="lb-nav" aria-label="Ảnh tiếp theo">&rsaquo;</button>
+    <div class="lb-counter">
+      <span id="lbIndex">1</span> / <span id="lbTotal">5</span>
+    </div>
     <img id="lightboxImg" alt="Ảnh phóng to">
   </div>
 

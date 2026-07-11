@@ -302,31 +302,124 @@ $$('[data-close="gallery"]').forEach((el) => {
 });
 
 // ============================================================
-// 8. LIGHTBOX
+// 8. LIGHTBOX with navigation
 // ============================================================
 
 const lightboxEl = $("#lightbox");
 const lightboxImg = $("#lightboxImg");
+const lbPrev = $("#lightboxPrev");
+const lbNext = $("#lightboxNext");
+const lbIndex = $("#lbIndex");
+const lbTotal = $("#lbTotal");
+
+let currentImageIndex = 0;
+let touchStartX = 0;
+let touchEndX = 0;
+
+function getGalleryImages() {
+  // Collect all unique image sources from gallery config + hero
+  return [...new Set(CONFIG.gallery)];
+}
 
 function openLightbox(src) {
-  lightboxImg.src = src;
+  const images = getGalleryImages();
+  currentImageIndex = images.indexOf(src);
+  if (currentImageIndex === -1) currentImageIndex = 0;
+
+  updateLightbox();
   lightboxEl.classList.add("open");
   lightboxEl.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
 }
 
 function closeLightbox() {
   lightboxEl.classList.remove("open");
   lightboxEl.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
 }
+
+function updateLightbox() {
+  const images = getGalleryImages();
+  lightboxImg.src = images[currentImageIndex];
+  lbIndex.textContent = currentImageIndex + 1;
+  lbTotal.textContent = images.length;
+
+  // Show/hide prev/next buttons at ends
+  lbPrev.style.display = currentImageIndex === 0 ? "none" : "";
+  lbNext.style.display = currentImageIndex === images.length - 1 ? "none" : "";
+}
+
+function goToPrev() {
+  const images = getGalleryImages();
+  if (currentImageIndex > 0) {
+    currentImageIndex--;
+    updateLightbox();
+  }
+}
+
+function goToNext() {
+  const images = getGalleryImages();
+  if (currentImageIndex < images.length - 1) {
+    currentImageIndex++;
+    updateLightbox();
+  }
+}
+
+// --- Click handlers ---
 
 $$(".photo[data-src]").forEach((el) => {
   el.addEventListener("click", () => openLightbox(el.dataset.src));
 });
 
+// Hero photo also opens lightbox
+$(".hero-photo img")?.addEventListener("click", () => {
+  openLightbox("anh1.jpg");
+});
+
 $("#lightboxClose").addEventListener("click", closeLightbox);
+
+lbPrev.addEventListener("click", goToPrev);
+lbNext.addEventListener("click", goToNext);
+
 lightboxEl.addEventListener("click", (e) => {
   if (e.target === lightboxEl) closeLightbox();
 });
+
+// --- Keyboard navigation ---
+document.addEventListener("keydown", (e) => {
+  if (!lightboxEl.classList.contains("open")) return;
+
+  if (e.key === "Escape") {
+    closeLightbox();
+  } else if (e.key === "ArrowLeft") {
+    goToPrev();
+  } else if (e.key === "ArrowRight") {
+    goToNext();
+  }
+});
+
+// --- Touch / swipe support ---
+lightboxEl.addEventListener("touchstart", (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+lightboxEl.addEventListener("touchend", (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+}, { passive: true });
+
+function handleSwipe() {
+  const threshold = 50;
+  const diff = touchStartX - touchEndX;
+
+  if (Math.abs(diff) > threshold) {
+    if (diff > 0) {
+      goToNext();
+    } else {
+      goToPrev();
+    }
+  }
+}
 
 // ============================================================
 // 9. KEYBOARD SHORTCUTS
@@ -643,8 +736,131 @@ window.addEventListener("beforeunload", () => {
   revokeCurrentAudioUrl();
 });
 
+
 // ============================================================
-// 11. KHỞI TẠO
+// 12. HEART PARTICLES ON CLICK
+// ============================================================
+
+function createHeartParticles(x, y, count = 6) {
+  const hearts = ["♡", "♥"];
+
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement("div");
+    el.className = "floating-heart";
+    el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+
+    el.style.left = `${x + (Math.random() - 0.5) * 60}px`;
+    el.style.top = `${y}px`;
+    el.style.color = "#d77f88";
+    el.style.fontSize = `${16 + Math.random() * 12}px`;
+    el.style.animationDelay = `${Math.random() * 0.2}s`;
+
+    document.body.appendChild(el);
+    el.addEventListener("animationend", () => el.remove());
+  }
+}
+
+document.addEventListener("click", (e) => {
+  const hitInteractive = e.target.closest(
+    "button, a, .player, .memory, .photo, .round-btn, .pill, .close, .primary, input, textarea, select, .rec-item"
+  );
+  if (!hitInteractive) {
+    createHeartParticles(e.clientX, e.clientY, 10);
+  }
+});
+
+// ============================================================
+// 13. SCROLL-TRIGGERED ENTRANCE ANIMATIONS
+// ============================================================
+
+function setupScrollAnimations() {
+  const animatedElements = $$(
+    ".polaroid, .intro, .voice-card, .section, .memories, .countdown, .recorder, footer"
+  );
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("entered");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.08, rootMargin: "0px 0px -30px 0px" }
+  );
+
+  animatedElements.forEach((el) => {
+    el.classList.add("entrance");
+    observer.observe(el);
+  });
+}
+
+// ============================================================
+// 14. PERIODIC BACKGROUND FLOATING HEARTS
+// ============================================================
+
+function startBackgroundHearts() {
+  let heartInterval = setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "bg-float-heart";
+    heart.textContent = "♡";
+    heart.style.left = `${Math.random() * 100}vw`;
+    heart.style.fontSize = `${7 + Math.random() * 14}px`;
+    heart.style.color =
+      ["#d77f8850", "#e49a9f40", "#f5a3b060", "#ffb6c150", "#c66b7540"][
+        Math.floor(Math.random() * 5)
+      ];
+    heart.style.animationDuration = `${8 + Math.random() * 14}s`;
+    heart.style.animationDelay = `${Math.random() * 4}s`;
+    document.body.appendChild(heart);
+    heart.addEventListener("animationend", () => heart.remove());
+  }, 1800);
+  return heartInterval;
+}
+
+// ============================================================
+// 15. ENHANCE POLAROID - ENTER WITH SOUND-LIKE HOVER
+// ============================================================
+
+function setupEnhancedHover() {
+  const polaroid = $(".polaroid");
+  if (!polaroid) return;
+
+  polaroid.addEventListener("mousemove", (e) => {
+    const rect = polaroid.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    polaroid.style.transform = `rotate(${x * 2}deg) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+  });
+
+  polaroid.addEventListener("mouseleave", () => {
+    polaroid.style.transform = "rotate(-0.5deg) rotateY(0deg) rotateX(0deg)";
+  });
+}
+
+// ============================================================
+// 16. BUTTON RIPPLE EFFECT
+// ============================================================
+
+function setupRippleEffect() {
+  document.querySelectorAll(".pill, .primary, .round-btn, .link-btn").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      const ripple = document.createElement("span");
+      ripple.className = "ripple-effect";
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+      this.appendChild(ripple);
+      ripple.addEventListener("animationend", () => ripple.remove());
+    });
+  });
+}
+
+// ============================================================
+// 17. KHỞI TẠO
 // ============================================================
 
 /** Load the most recent recording from IndexedDB into the main player */
@@ -662,9 +878,13 @@ function loadLatestRecordingIntoPlayer() {
 }
 
 // ============================================================
-// 11. KHỞI TẠO
+// 17. KHỞI TẠO
 // ============================================================
 
 updateDateCounters();
 renderRecordingHistory();
 loadLatestRecordingIntoPlayer();
+setupScrollAnimations();
+startBackgroundHearts();
+setupEnhancedHover();
+setupRippleEffect();
